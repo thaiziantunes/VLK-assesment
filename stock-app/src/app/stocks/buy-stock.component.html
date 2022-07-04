@@ -1,0 +1,55 @@
+<div class="content">
+  <div class="section">
+    <mat-label>Enter your user id to continue</mat-label>
+    <input
+      class="userIdInput"
+      matInput
+      placeholder="user id"
+      #userIdInput
+      (keyup)="searchUser(userIdInput)"
+    />
+    <h4 *ngIf="user.userName" class="user">Hello {{ user.userName }}</h4>
+    <h4 *ngIf="user.cashBalance">
+      Your current balance is: {{ user.cashBalance }}
+    </h4>
+  </div>
+
+  <div *ngIf="user.userName" class="section">
+    <mat-label>Select the stock you want to buy on the list</mat-label>
+    <mat-form-field appearance="fill">
+      <mat-select [formControl]="stock">
+        <mat-option *ngFor="let stock of stockList" [value]="stock">{{
+          stock
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="user.userName && stock.value" class="section">
+    <mat-label>Enter the nunmber of stocks you want to buy</mat-label>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input
+          class="stockQntInput"
+          matInput
+          placeholder="Number of stocks"
+          [value]="totalStocks"
+          #stockQntInput
+          (keyup)="valueUpdated(stockQntInput)"
+        />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="getInputNum(stockQntInput, '0ms', '500ms')"
+      >
+        Buy stock
+      </button>
+    </form>
+    <div>Total Amount: {{ myFinalValue }}</div>
+  </div>
+  <div *ngIf="isBought" class="successBuy">
+    Your order was succsefully executed and now you own
+    {{ stock.value }} stocks
+  </div>
+</div>
